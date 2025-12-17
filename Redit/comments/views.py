@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Announcement
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import (LoginRequiredMixin, UserPassesTestMixin)
 from django.contrib.auth.forms import UserCreationForm
 #from .forms import PostForm
@@ -36,6 +36,10 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     #def test(self):
     #    task = self.get_object()
     #    return self.request.user == task.author
+    
+class PostUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
+    model = Announcement
+    template_name = 'tasks/task_update.html'
     
 def post_list(request):
     return render(request, 'list.html')
