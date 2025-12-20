@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+import os
 # Create your models here.
 class Announcement(models.Model):
     title = models.CharField(max_length=100)
@@ -10,6 +12,13 @@ class Announcement(models.Model):
     
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse("task_detail", kwargs={"pk": self.pk})
+    
+    @property
+    def filename(self):
+        return os.path.basename(self.attachment.name)
     
     class Meta:
         ordering = ['-created_at']
@@ -25,5 +34,5 @@ class Comment(models.Model):
         return f"Коментар до {self.post.title}. Автор: {self.author.username} Дата: {self.created_at}"
     
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['created_at']
     

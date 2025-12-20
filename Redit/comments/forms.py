@@ -9,7 +9,7 @@ class PostForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 4})}
         
-class CommentForms(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
         fields = ['text']
         widgets = {'text': forms.Textarea(attrs={'rows':3,'placeholder': "Ваш коментар..."})}
