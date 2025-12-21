@@ -1,1 +1,26 @@
-:D
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Усі оголошення</h2>
+    <a href="{% url 'post_create' %}" class="btn btn-success">➕ Додати</a>
+</div>
+
+{% for post in posts %}
+<div class="card mb-4">
+    <div class="card-body">
+        <h4>{{ post.title }}</h4>
+        <p class="text-muted">{{ post.content|truncatewords:25 }}</p>
+
+        <div class="d-flex justify-content-between">
+            <small>Автор: {{ post.author }}</small>
+            <a href="{% url 'post_detail' post.pk %}" class="btn btn-outline-primary btn-sm">
+                Детальніше →
+            </a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<p class="text-muted">Поки що оголошень немає.</p>
+{% endfor %}
+{% endblock %}

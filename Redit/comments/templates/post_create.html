@@ -1,1 +1,30 @@
-:d
+{% extends 'base.html' %}
+
+{% block title %}Нове оголошення{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-4 text-center">➕ Створити оголошення</h3>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">
+                            ← Назад
+                        </a>
+                        <button class="btn btn-success">
+                            💾 Зберегти
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -14,7 +14,7 @@ class Announcement(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse("task_detail", kwargs={"pk": self.pk})
+        return reverse("post_detail", kwargs={"pk": self.pk})
     
     @property
     def filename(self):

@@ -1,1 +1,30 @@
-^_^
+{% extends 'base.html' %}
+
+{% block title %}Реєстрація{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center mb-4">📝 Реєстрація</h3>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <button class="btn btn-success w-100 mt-3">
+                        Створити акаунт
+                    </button>
+                </form>
+
+                <p class="text-center mt-3">
+                    Вже є акаунт?
+                    <a href="{% url 'login' %}">Увійти</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -7,5 +7,6 @@ urlpatterns = [
     path('task/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
     path('task/<int:pk>/delete', PostDeleteView.as_view(), name="post_delete"),
     path('task/<int:pk>/update', PostUpdateView.as_view(), name="post_update"),
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(),name='comment_delete'),
 ]
 

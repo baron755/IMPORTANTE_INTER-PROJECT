@@ -6,6 +6,9 @@ from django.contrib.auth.mixins import (LoginRequiredMixin, UserPassesTestMixin)
 from django.contrib.auth.forms import UserCreationForm
 from .forms import PostForm, CommentForm
 from django.views.generic.edit import FormMixin
+from .models import Comment
+from django.shortcuts import get_object_or_404
+
 # Create your views here.
 class SignUpView(CreateView):
     form_class = UserCreationForm
@@ -39,7 +42,7 @@ class PostDetailView(LoginRequiredMixin, DetailView, FormMixin):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
-        if form.is_valid(form):
+        if form.is_valid():
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
@@ -71,9 +74,22 @@ class PostDeleteView(LoginRequiredMixin, DeleteView, UserPassesTestMixin):
     
 class PostUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
     model = Announcement
-    template_name = 'task_update.html'
+    template_name = 'post_update.html'
     form_class = PostForm
     
     def test(self):
         task = self.get_object()
         return self.request.user == task.author
+    
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    template_name = 'comment_delete.html'
+
+    def get_success_url(self):
+        return self.object.post.get_absolute_url()
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+    
