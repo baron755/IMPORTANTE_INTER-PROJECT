@@ -1,35 +1,18 @@
 {% extends 'base.html' %}
-
-{% block title %}Видалення коментаря{% endblock %}
+{% block title %}Видалити оголошення{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card border-danger shadow-sm">
-            <div class="card-body text-center">
-                <h3 class="text-danger mb-3">⚠ Підтвердження</h3>
+<div class="card p-4 mx-auto text-center border-danger" style="max-width:720px;">
+    <h3 class="text-danger mb-2">Ви впевнені?</h3>
+    <p class="small-muted mb-3">Видалити оголошення:</p>
+    <h5 class="mb-4">«{{ object.title }}»</h5>
 
-                <p class="text-muted">Ви дійсно хочете видалити цей коментар?</p>
-
-                <div class="alert alert-light border">
-                    <i>“{{ object.text }}”</i>
-                </div>
-
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="d-flex justify-content-center gap-3 mt-3">
-                        <a href="{{ object.post.get_absolute_url }}"
-                           class="btn btn-outline-secondary">
-                            ← Скасувати
-                        </a>
-                        <button class="btn btn-danger">
-                            🗑 Видалити
-                        </button>
-                    </div>
-                </form>
-
-            </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'post_detail' object.pk %}" class="btn btn-outline-secondary">Скасувати</a>
+            <button class="btn btn-danger">🗑 Видалити</button>
         </div>
-    </div>
+    </form>
 </div>
 {% endblock %}

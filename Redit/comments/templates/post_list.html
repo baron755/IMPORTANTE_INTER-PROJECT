@@ -1,26 +1,70 @@
 {% extends 'base.html' %}
+{% block title %}Список оголошень{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Усі оголошення</h2>
-    <a href="{% url 'post_create' %}" class="btn btn-success">➕ Додати</a>
+    <h3 class="mb-0">📰 Оголошення</h3>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'post_create' %}" class="btn btn-primary">
+            ➕ Створити оголошення
+        </a>
+    {% endif %}
 </div>
 
-{% for post in posts %}
-<div class="card mb-4">
-    <div class="card-body">
-        <h4>{{ post.title }}</h4>
-        <p class="text-muted">{{ post.content|truncatewords:25 }}</p>
 
-        <div class="d-flex justify-content-between">
-            <small>Автор: {{ post.author }}</small>
-            <a href="{% url 'post_detail' post.pk %}" class="btn btn-outline-primary btn-sm">
-                Детальніше →
-            </a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Оголошення</h2>
+    <div class="small-muted">Всього: <strong>{{ page_obj.paginator.count }}</strong></div>
+</div>
+
+<div class="row g-3">
+    {% for post in posts %}
+    <div class="col-12">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h4 class="mb-1"><a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">{{ post.title }}</a></h4>
+                    <p class="small-muted mb-2">{{ post.content|truncatewords:28 }}</p>
+                    <div class="small-muted">Автор: {{ post.author }} · {{ post.created_at|date:"j M Y, H:i" }}</div>
+                </div>
+                <div class="text-end">
+                    <a class="btn btn-outline-primary btn-sm" href="{% url 'post_detail' post.pk %}">Детальніше →</a>
+                </div>
+            </div>
         </div>
     </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="card p-3 text-center">
+            <p class="mb-0 small-muted">Оголошень ще немає. Створіть перше!</p>
+        </div>
+    </div>
+    {% endfor %}
 </div>
-{% empty %}
-<p class="text-muted">Поки що оголошень немає.</p>
-{% endfor %}
+
+<!-- Pagination -->
+{% if is_paginated %}
+<nav class="mt-4 d-flex justify-content-center" aria-label="Page navigation">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">← Попередня</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">← Попередня</span></li>
+        {% endif %}
+
+        <li class="page-item disabled"><span class="page-link">Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}</span></li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна →</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Наступна →</span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
 {% endblock %}

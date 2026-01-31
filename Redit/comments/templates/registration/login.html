@@ -1,31 +1,23 @@
 {% extends 'base.html' %}
-
 {% block title %}Вхід{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="text-center mb-4">🔐 Вхід</h3>
-
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-
-                    <button class="btn btn-primary w-100 mt-3">
-                        Увійти
-                    </button>
-                </form>
-
-                <p class="text-center mt-3">
-                    Немає акаунта?
-                    <a href="{% url 'signup' %}">Зареєструватися</a>
-                </p>
-
-            </div>
+<div class="card p-4 mx-auto" style="max-width:460px;">
+    <h3 class="mb-3 text-center">Вхід</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            {{ form.username.label_tag }}
+            {{ form.username }}
         </div>
-    </div>
+        <div class="mb-3">
+            {{ form.password.label_tag }}
+            {{ form.password }}
+        </div>
+
+        <button class="btn btn-primary w-100">Увійти</button>
+    </form>
+    <p class="text-center small-muted mt-3">Немає акаунта? <a href="{% url 'signup' %}">Реєстрація</a></p>
 </div>
 {% endblock %}
-
